@@ -19,22 +19,22 @@ const Countdown = ({ targetDate }) => {
     }, [targetDate]);
 
     return (
-        <div className="flex justify-center gap-4 md:gap-10 py-10 font-serif text-gray-800 border-b border-gray-200 w-full max-w-xl mx-auto mb-12">
-        <div className="text-center">
-            <div className="text-3xl md:text-4xl font-light">{timeLeft.days}</div>
-            <div className="text-[10px] uppercase tracking-[0.2em] text-gray-400 mt-2">Days</div>
+        <div className="flex justify-center gap-3 sm:gap-4 md:gap-10 py-6 sm:py-10 font-serif text-gray-800 border-b border-gray-200 w-full max-w-xl mx-auto mb-8 sm:mb-12 px-2">
+        <div className="text-center min-w-[50px] sm:min-w-[60px]">
+            <div className="text-2xl sm:text-3xl md:text-4xl font-light">{timeLeft.days}</div>
+            <div className="text-[8px] sm:text-[10px] uppercase tracking-[0.1em] sm:tracking-[0.2em] text-gray-400 mt-1 sm:mt-2">Days</div>
         </div>
-        <div className="text-center">
-            <div className="text-3xl md:text-4xl font-light">{timeLeft.hours}</div>
-            <div className="text-[10px] uppercase tracking-[0.2em] text-gray-400 mt-2">Hours</div>
+        <div className="text-center min-w-[50px] sm:min-w-[60px]">
+            <div className="text-2xl sm:text-3xl md:text-4xl font-light">{timeLeft.hours}</div>
+            <div className="text-[8px] sm:text-[10px] uppercase tracking-[0.1em] sm:tracking-[0.2em] text-gray-400 mt-1 sm:mt-2">Hours</div>
         </div>
-        <div className="text-center">
-            <div className="text-3xl md:text-4xl font-light">{timeLeft.minutes}</div>
-            <div className="text-[10px] uppercase tracking-[0.2em] text-gray-400 mt-2">Mins</div>
+        <div className="text-center min-w-[50px] sm:min-w-[60px]">
+            <div className="text-2xl sm:text-3xl md:text-4xl font-light">{timeLeft.minutes}</div>
+            <div className="text-[8px] sm:text-[10px] uppercase tracking-[0.1em] sm:tracking-[0.2em] text-gray-400 mt-1 sm:mt-2">Mins</div>
         </div>
-        <div className="text-center">
-            <div className="text-3xl md:text-4xl font-light">{timeLeft.seconds}</div>
-            <div className="text-[10px] uppercase tracking-[0.2em] text-gray-400 mt-2">Secs</div>
+        <div className="text-center min-w-[50px] sm:min-w-[60px]">
+            <div className="text-2xl sm:text-3xl md:text-4xl font-light">{timeLeft.seconds}</div>
+            <div className="text-[8px] sm:text-[10px] uppercase tracking-[0.1em] sm:tracking-[0.2em] text-gray-400 mt-1 sm:mt-2">Secs</div>
         </div>
         </div>
     );
