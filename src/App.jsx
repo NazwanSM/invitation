@@ -1,18 +1,44 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 // Import komponen yang sudah dipisah
 import MusicPlayer from './components/MusicPlayer';
 import Countdown from './components/Countdown';
 
 // --- KOMPONEN ITEM RUNDOWN (Tetap di sini karena kecil/spesifik) ---
-const TimelineItem = ({ time, activity, location, note, mapsLink }) => (
-  <div className="relative pl-8 pb-12 border-l border-gray-300 last:border-0 last:pb-0">
-    <div className="absolute -left-[5px] top-2 w-2.5 h-2.5 rounded-full bg-gray-800 ring-4 ring-[#FAFAF9]"></div>
+const TimelineItem = ({ id, time, activity, location, note, mapsLink, isChecked, onToggle }) => (
+  <div className={`relative pl-8 pb-12 border-l border-gray-300 last:border-0 last:pb-0 transition-all duration-300 ${isChecked ? 'opacity-60' : ''}`}>
+    <div className={`absolute -left-[5px] top-2 w-2.5 h-2.5 rounded-full ring-4 ring-[#FAFAF9] transition-colors ${isChecked ? 'bg-[#8E7F7F]' : 'bg-gray-800'}`}></div>
+    
+    {/* Checkbox */}
+    <div className="absolute -left-10 top-1">
+      <label className="cursor-pointer">
+        <input 
+          type="checkbox" 
+          checked={isChecked} 
+          onChange={() => onToggle(id)}
+          className="sr-only peer"
+        />
+        <div className={`w-5 h-5 border-2 rounded flex items-center justify-center transition-all
+          ${isChecked 
+            ? 'bg-gray-800 border-gray-800' 
+            : 'border-gray-300 hover:border-gray-500'
+          }`}
+        >
+          {isChecked && (
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="white" className="w-3 h-3">
+              <path fillRule="evenodd" d="M19.916 4.626a.75.75 0 01.208 1.04l-9 13.5a.75.75 0 01-1.154.114l-6-6a.75.75 0 011.06-1.06l5.353 5.353 8.493-12.739a.75.75 0 011.04-.208z" clipRule="evenodd" />
+            </svg>
+          )}
+        </div>
+      </label>
+    </div>
+
     <div className="flex flex-col sm:flex-row sm:items-baseline gap-1 sm:gap-4 mb-1">
-      <span className="text-sm font-bold text-gray-400 font-sans min-w-[80px]">{time}</span>
-      <h3 className="text-xl font-serif text-gray-800">{activity}</h3>
+      <span className={`text-sm font-bold text-gray-400 font-sans min-w-[80px] ${isChecked ? 'line-through' : ''}`}>{time}</span>
+      <h3 className={`text-xl font-serif text-gray-800 transition-all ${isChecked ? 'line-through text-gray-400' : ''}`}>{activity}</h3>
+      {isChecked && <span className="text-[#8E7F7F] text-sm italic">✓ Selesai</span>}
     </div>
     <div className="flex items-center gap-2 mb-2">
-      <p className="text-gray-600 italic">{location}</p>
+      <p className={`text-gray-600 italic ${isChecked ? 'line-through text-gray-400' : ''}`}>{location}</p>
       {mapsLink && (
         <a 
           href={mapsLink} 
@@ -28,9 +54,78 @@ const TimelineItem = ({ time, activity, location, note, mapsLink }) => (
         </a>
       )}
     </div>
-    {note && <p className="text-sm text-gray-500 font-light bg-gray-100 p-3 rounded-md inline-block">{note}</p>}
+    {note && <p className={`text-sm text-gray-500 font-light bg-gray-100 p-3 rounded-md inline-block ${isChecked ? 'line-through' : ''}`}>{note}</p>}
   </div>
 );
+
+// --- DATA ITINERARY ---
+const itineraryData = [
+  { id: 'sarapan', time: '08:00 AM', activity: 'Sarapan Bareng', location: 'Bubur DPR', note: 'Mulai hari dengan bubur viral.', mapsLink: 'https://maps.app.goo.gl/X4fRZaaEqKthZ8n69' },
+  { id: 'main', time: '09:00 AM', activity: 'Maen maen di ijo ijo', location: 'Dago Dream Park / Noah\'s Park / Rumpun Chanaya', note: 'Sumpah ini bingung antara tiga ini yang mana yang worth it', mapsLink: 'https://maps.app.goo.gl/rCSeigjSxjWrv8F1A' },
+  { id: 'perwalian', time: '01:00 PM', activity: 'Perwalian', location: 'Institut Teknologi Bandung', note: 'Aku perwalian dlu yah bocil hehe', mapsLink: 'https://maps.app.goo.gl/RrcL8fLvVHafKhaF6' },
+  { id: 'ngafe', time: '03:00 PM', activity: 'Ngafe dan foto foto cantik', location: 'Lalita Delicates', note: 'Semoga kamuu suka tempatnya, kalau gasuka aku ada opsi lain hehe.', mapsLink: 'https://maps.app.goo.gl/ZzthrNyF6RotLNa38' },
+  { id: 'dinner', time: '06:30 PM', activity: 'Mam malem', location: 'Hakata Ikkousha', note: 'Memenuhi BM Bocil.', mapsLink: 'https://maps.app.goo.gl/2rZRhxh2uDAwTDWK6' },
+];
+
+// --- KOMPONEN RUNDOWN SECTION ---
+const RundownSection = () => {
+  const [checkedItems, setCheckedItems] = useState(() => {
+    // Load from localStorage on mount
+    const saved = localStorage.getItem('itinerary-checked');
+    return saved ? JSON.parse(saved) : {};
+  });
+
+  // Save to localStorage whenever checkedItems changes
+  useEffect(() => {
+    localStorage.setItem('itinerary-checked', JSON.stringify(checkedItems));
+  }, [checkedItems]);
+
+  const handleToggle = (id) => {
+    setCheckedItems(prev => ({
+      ...prev,
+      [id]: !prev[id]
+    }));
+  };
+
+  const completedCount = Object.values(checkedItems).filter(Boolean).length;
+  const totalCount = itineraryData.length;
+
+  return (
+    <section className="pt-12">
+      <h3 className="text-2xl font-serif text-gray-800 text-center mb-4">The Plan</h3>
+      
+      {/* Progress Bar */}
+      <div className="max-w-xl mx-auto mb-8">
+        <div className="flex items-center justify-between text-sm text-gray-500 mb-2">
+          <span className="italic">Progress</span>
+          <span>{completedCount}/{totalCount} selesai</span>
+        </div>
+        <div className="h-2 bg-gray-200 rounded-full overflow-hidden">
+          <div 
+            className="h-full bg-gray-800 transition-all duration-500 ease-out"
+            style={{ width: `${(completedCount / totalCount) * 100}%` }}
+          />
+        </div>
+        {completedCount === totalCount && (
+          <p className="text-center text-[#8E7F7F] mt-3 font-serif italic animate-pulse">
+             Semua aktivitas selesai! Semoga kamu happy ya bocil!
+          </p>
+        )}
+      </div>
+
+      <div className="max-w-xl mx-auto pl-6">
+        {itineraryData.map(item => (
+          <TimelineItem 
+            key={item.id}
+            {...item}
+            isChecked={!!checkedItems[item.id]}
+            onToggle={handleToggle}
+          />
+        ))}
+      </div>
+    </section>
+  );
+};
 
 // --- KOMPONEN RSVP ---
 const RSVPSection = () => {
@@ -250,16 +345,7 @@ const MainContent = () => {
         </section>
 
         {/* Rundown Section */}
-        <section className="pt-12">
-            <h3 className="text-2xl font-serif text-gray-800 text-center mb-12">The Plan</h3>
-            <div className="max-w-xl mx-auto">
-                <TimelineItem time="08:00 AM" activity="Sarapan Bareng" location="Bubur DPR" note="Mulai hari dengan bubur viral." mapsLink="https://maps.app.goo.gl/X4fRZaaEqKthZ8n69" />
-                <TimelineItem time="09:00 AM" activity="Maen maen di ijo ijo" location="Dago Dream Park / Noah's Park / Rumpun Chanaya" note="Sumpah ini bingung antara tiga ini yang mana yang worth it" mapsLink="https://maps.app.goo.gl/rCSeigjSxjWrv8F1A" />
-                <TimelineItem time="01:00 PM" activity="Perwalian" location="Institut Teknologi Bandung" note="Aku perwalian dlu yah bocil hehe" mapsLink="https://maps.app.goo.gl/RrcL8fLvVHafKhaF6" />
-                <TimelineItem time="03:00 PM" activity="Ngafe dan foto foto cantik" location="Lalita Delicates" note="Semoga kamuu suka tempatnya, kalau gasuka aku ada opsi lain hehe." mapsLink="https://maps.app.goo.gl/ZzthrNyF6RotLNa38" />
-                <TimelineItem time="06:30 PM" activity="Mam malem" location="Hakata Ikkousha" note="Memenuhi BM Bocil." mapsLink="https://maps.app.goo.gl/2rZRhxh2uDAwTDWK6" />
-            </div>
-        </section>
+        <RundownSection />
 
         {/* Dresscode Section */}
         <section className="bg-white p-8 md:p-12 shadow-sm border border-gray-100 text-center space-y-6">
