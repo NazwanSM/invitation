@@ -84,7 +84,7 @@ const TimelineItem = ({ id, time, activity, location, note, mapsLink, isChecked,
 // --- DATA ITINERARY ---
 const itineraryData = [
   { id: 'sarapan', time: '08:00 AM', activity: 'Sarapan Bareng', location: 'Bubur DPR', note: 'Mulai hari dengan bubur viral.', mapsLink: 'https://maps.app.goo.gl/X4fRZaaEqKthZ8n69' },
-  { id: 'main', time: '09:00 AM', activity: 'Maen maen di ijo ijo', location: 'Dago Dream Park / Noah\'s Park / Rumpun Chanaya', note: 'Sumpah ini bingung antara tiga ini yang mana yang worth it', mapsLink: 'https://maps.app.goo.gl/rCSeigjSxjWrv8F1A' },
+  { id: 'main', time: '09:00 AM', activity: 'Maen maen di ijo ijo', location: 'Rumpun Chanaya', note: 'Semoga seru di sini', mapsLink: 'https://maps.app.goo.gl/wELbAzFMd8Dqt4ap9' },
   { id: 'perwalian', time: '01:00 PM', activity: 'Perwalian', location: 'Institut Teknologi Bandung', note: 'Aku perwalian dlu yah bocil hehe', mapsLink: 'https://maps.app.goo.gl/RrcL8fLvVHafKhaF6' },
   { id: 'ngafe', time: '03:00 PM', activity: 'Ngafe dan foto foto cantik', location: 'Lalita Delicates', note: 'Semoga kamuu suka tempatnya, kalau gasuka aku ada opsi lain hehe.', mapsLink: 'https://maps.app.goo.gl/ZzthrNyF6RotLNa38' },
   { id: 'dinner', time: '06:30 PM', activity: 'Mam malem', location: 'Hakata Ikkousha', note: 'Memenuhi BM Bocil.', mapsLink: 'https://maps.app.goo.gl/2rZRhxh2uDAwTDWK6' },
@@ -339,7 +339,7 @@ const MainContent = () => {
 
                 <div className="bg-white p-2 sm:p-3 shadow-lg rotate-2 hover:rotate-0 transition-transform duration-500 w-36 sm:w-48 md:w-56 cursor-pointer mt-4 sm:mt-8 md:mt-0">
                     <div className="aspect-[4/5] bg-gray-200 overflow-hidden mb-2 sm:mb-3">
-                        <img src="/spot2.jpeg" alt="Destination 2" className="w-full h-full object-cover hover:scale-110 transition-transform duration-700 grayscale hover:grayscale-0" />
+                        <img src="/spot2.jpg" alt="Destination 2" className="w-full h-full object-cover hover:scale-110 transition-transform duration-700 grayscale hover:grayscale-0" />
                     </div>
                     <p className="text-center font-serif text-xs sm:text-sm italic text-gray-600">Bermain</p>
                 </div>
