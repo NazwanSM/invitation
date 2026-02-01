@@ -178,7 +178,7 @@ const InvitationCover = ({ onOpen }) => {
         <p className="text-sm tracking-[0.3em] uppercase text-gray-500">A Special Invitation</p>
         <h1 className="text-5xl md:text-6xl font-serif text-gray-800 italic">Are you free?</h1>
         <p className="text-gray-600 font-light leading-relaxed px-4">
-          I've planned something special for us. A day to relax, explore, and enjoy good company.
+          I've planned something special for us. A day to relax, explore, and enjoy our day.
         </p>
         <div className="pt-8">
           <button 
